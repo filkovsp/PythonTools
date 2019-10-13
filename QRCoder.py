@@ -9,9 +9,8 @@ class QRCoder(): # {
         # default value for number of code lines per each SVG file.
         self.line_max = 50
     
-    # @classmethod --> what's the fuck is this in bloody Python???
+    # @classmethod --> what's the heck is this in bloody Python???
     def Encode(self, fileName):
-        # fileName = "ScreenTime.cs"
         f = io.open(fileName, mode="r", encoding="utf-8")
         fileText = f.readlines()
         line_count = len(fileText)
@@ -30,7 +29,6 @@ class QRCoder(): # {
                 img.save("{0}.svg".format(fileName))
 
     def Decode(self, filname):
-        # pass
         raise Exception("This method isn't yet implemented")
 # }.QRCoder
 
