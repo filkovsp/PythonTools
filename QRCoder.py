@@ -1,30 +1,41 @@
-import os
 import io
-import sys
 import qrcode
 import qrcode.image.svg as svg
 import numpy as np
 import math
 
-fileName = "PyGame.py"
-f = io.open(fileName, mode="r", encoding="utf-8")
-fileText = f.readlines()
-line_count = len(fileText)
+class QRCoder(): # {
+    def __init__(self):
+        # default value for number of code lines per each SVG file.
+        self.line_max = 50
+    
+    # @classmethod --> what's the fuck is this in bloody Python???
+    def Encode(self, fileName):
+        # fileName = "ScreenTime.cs"
+        f = io.open(fileName, mode="r", encoding="utf-8")
+        fileText = f.readlines()
+        line_count = len(fileText)
+        
+        # number of code chunks (SVG files)
+        chunks = np.array_split(fileText, math.ceil(line_count/self.line_max))
 
-# number of code lines per 1 SVG file.
-line_max = 50
+        i=0
+        for chunk in chunks:
+            if len(chunks) > 1:
+                img = qrcode.make("".join(chunk), image_factory=svg.SvgImage)
+                img.save("{0}.{1}.svg".format(fileName,i))
+                i+=1
+            else:
+                img = qrcode.make("".join(chunk), image_factory=svg.SvgImage)
+                img.save("{0}.svg".format(fileName))
 
-# number of code chunks (SVG files)
-chunks = np.array_split(fileText, math.ceil(line_count/line_max))
+    def Decode(self, filname):
+        # pass
+        raise Exception("This method isn't yet implemented")
+# }.QRCoder
 
-i=0
-for chunk in chunks:
-    if len(chunks) > 1:
-        img = qrcode.make("".join(chunk), image_factory=svg.SvgImage)
-        img.save("{0}.{1}.svg".format(fileName,i))
-        i+=1
-    else:
-        img = qrcode.make("".join(chunk), image_factory=svg.SvgImage)
-        img.save("{0}.svg".format(fileName))
+qr = QRCoder()
+qr.Encode("PyGame.py")
+# qr.Decode("ScreenTime.cs")
 
 print("All done")
