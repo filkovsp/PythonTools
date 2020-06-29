@@ -3,6 +3,7 @@ import qrcode
 import qrcode.image.svg as svg
 import numpy as np
 import math
+import io
 
 class QRCoder(): # {
     def __init__(self):
